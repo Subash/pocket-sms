@@ -10,11 +10,11 @@ export default class Messenger {
   }
 
   async _getAuthCookie() {
-    const qs = new URLSearchParams();
-    qs.append('user_name', this._username);
-    qs.append('user_password', this._password);
+    const body = new URLSearchParams();
+    body.append('user_name', this._username);
+    body.append('user_password', this._password);
 
-    const result = await this._api.post('goform/Login', qs, {
+    const result = await this._api.post('goform/Login', body, {
       validateStatus: (status) => status === 302, // redirects after processing request
       maxRedirects: 0
     });
@@ -27,13 +27,13 @@ export default class Messenger {
   }
 
   async sendSms(phone, message) {
-    const qs = new URLSearchParams();
-    qs.append('cmd', 'SmsUtil');
-    qs.append('action', 'sendsms');
-    qs.append('item', phone);
-    qs.append('subitem', Buffer.from(message, 'utf-8').toString('base64'));
+    const body = new URLSearchParams();
+    body.append('cmd', 'SmsUtil');
+    body.append('action', 'sendsms');
+    body.append('item', phone);
+    body.append('subitem', Buffer.from(message, 'utf-8').toString('base64'));
 
-    await this._api.post('goform/CommConfig', qs, {
+    await this._api.post('goform/CommConfig', body, {
       maxRedirects: 0,
       headers: {
         Cookie: await this._getAuthCookie()
