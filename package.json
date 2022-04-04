@@ -1,0 +1,27 @@
+{
+  "name": "@sbspk/pocket-sms",
+  "version": "1.0.0",
+  "main": "src/messenger.js",
+  "types": "src/messenger.d.ts",
+  "type": "module",
+  "description": "Send SMS with LTE Pocket Wifi Device",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subash/pocket-sms.git"
+  },
+  "author": "Subash Pathak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Subash/pocket-sms/issues"
+  },
+  "homepage": "https://github.com/Subash/pocket-sms#readme",
+  "dependencies": {
+    "axios": "^0.26.1"
+  },
+  "devDependencies": {
+    "ava": "^4.1.0"
+  }
+}

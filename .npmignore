@@ -1,0 +1,8 @@
+.env
+.DS_Store
+.editorconfig
+.gitattributes
+.github
+.prettierrc
+/node_modules
+/tests
