@@ -33,11 +33,56 @@ export default class Messenger {
     body.append('item', phone);
     body.append('subitem', Buffer.from(message, 'utf-8').toString('base64'));
 
-    await this._api.post('goform/CommConfig', body, {
+    return await this._api.post('goform/CommConfig', body, {
       maxRedirects: 0,
       headers: {
         Cookie: await this._getAuthCookie()
       }
+    });
+  }
+
+  async deleteSms(id) {
+    const body = new URLSearchParams();
+    body.append('cmd', 'SmsUtil');
+    body.append('action', 'deleteSMS');
+    body.append('item', id);
+    body.append('subitem', '1');
+
+    return await this._api.post('goform/CommConfig', body, {
+      maxRedirects: 0,
+      headers: {
+        Cookie: await this._getAuthCookie()
+      }
+    });
+  }
+
+  async getMessages() {
+    const { data } = await this._api.get('web/sms.asp', {
+      maxRedirects: 0,
+      headers: {
+        Cookie: await this._getAuthCookie()
+      }
+    });
+
+    return this._parseMessages(data);
+  }
+
+  _parseMessages(data) {
+    const messages = data
+      .split(`//var sms_all = '`)?.[1]
+      .split(`var sms_all = '`)?.[1]
+      ?.split(`var new_sms_count = '`)?.[0]
+      ?.trim()
+      ?.replace(`,]';`, ']');
+
+    if (!messages) return [];
+
+    return JSON.parse(messages).map((message) => {
+      return {
+        id: Number.parseInt(message.id),
+        phone: message.addr,
+        body: Buffer.from(message.body, 'base64').toString('utf-8')
+      };
     });
   }
 }
