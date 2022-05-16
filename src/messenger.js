@@ -26,7 +26,7 @@ export default class Messenger {
     return result.headers['set-cookie'][0].split(';')[0];
   }
 
-  async sendSms(phone, message) {
+  async sendMessage(phone, message) {
     const body = new URLSearchParams();
     body.append('cmd', 'SmsUtil');
     body.append('action', 'sendsms');
@@ -41,7 +41,7 @@ export default class Messenger {
     });
   }
 
-  async deleteSms(id) {
+  async deleteMessage(id) {
     const body = new URLSearchParams();
     body.append('cmd', 'SmsUtil');
     body.append('action', 'deleteSMS');
@@ -69,11 +69,13 @@ export default class Messenger {
 
   _parseMessages(data) {
     const messages = data
-      .split(`//var sms_all = '`)?.[1]
-      .split(`var sms_all = '`)?.[1]
+      ?.split(`//var sms_all = '`)?.[1]
+      ?.split(`var sms_all = '`)?.[1]
       ?.split(`var new_sms_count = '`)?.[0]
       ?.trim()
-      ?.replace(`,]';`, ']');
+      ?.replace(`,]`, ']')
+      ?.replace(`';`, '')
+      ?.trim();
 
     if (!messages) return [];
 

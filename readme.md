@@ -13,5 +13,5 @@ const messenger = new Messenger({
   password: 'hunter2'
 });
 
-await messenger.sendSms('98xxxxxxxx', 'Hello World');
+await messenger.sendMessage('98xxxxxxxx', 'Hello World');
 ```

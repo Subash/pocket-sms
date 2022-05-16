@@ -8,5 +8,5 @@ export default class Messenger {
     username: string;
     password: string;
   });
-  sendSms(phone: string, message: string): Promise<void>;
+  sendMessage(phone: string, message: string): Promise<void>;
 }
